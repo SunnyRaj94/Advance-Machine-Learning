@@ -10,12 +10,12 @@ import pandas as pd
 #importing numpy
 import numpy as np
 
-#importing scikit learn  library classes
-from sklearn import metrics
-
 #seeting name to run this file as flask app
 app = Flask(__name__)
 
+
+#this function is pre - processing the json request data
+# the same as done in training the model
 def pre_processing(data,encoder):
     #making data frame from obtained json data
     data_set = pd.DataFrame(data,index=[0])
@@ -40,12 +40,8 @@ def pre_processing(data,encoder):
     return x_values,y_values
 
 
-
-@app.route('/')
-def index():
-    return "hello there!!!!!"
-
-
+# this function takes the post type of request
+# and returns the predicted y value
 @app.route('/predict',methods=['POST'])
 def predict_output():
     #obtaining regressor object from pkl file
@@ -65,10 +61,11 @@ def predict_output():
 
     #making dictionary to store results
     result             = {}
-    result["Mean Squared Error "]      =  metrics.mean_squared_error(y_values, prediction)
-    result["Root Squared Mean Error"]  =  np.sqrt(metrics.mean_absolute_error(y_values, prediction))
-    result["Mean Absolute Error"]      =  metrics.mean_absolute_error(y_values, prediction)
-    result['predicted count']          =  prediction.tolist()
+    # m_s_e                              =  metrics.mean_squared_error(y_values, prediction)
+    # r_m_s_e                            =  np.sqrt(metrics.mean_absolute_error(y_values, prediction))
+    # m_a_e                              =  metrics.mean_absolute_error(y_values, prediction)
+    result['predicted count']          =  prediction[0].tolist()
+    result['actual count']             =  y_values[0].tolist()
     #returning result to user
     return jsonify(result)
 
