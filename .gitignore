@@ -5,3 +5,5 @@ venv/*
 # ignoring .ipynb_checkpoints
 .ipynb_checkpoints 
 */.ipynb_checkpoints/*
+
+*/workspace.xml/*
